@@ -28,8 +28,10 @@ CREATE TABLE IF NOT EXISTS admins (
 );
 
 -- Insert default admin user (password: admin123)
-INSERT INTO admins (username, password, email) VALUES 
-('admin', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin@example.com');
+-- First delete existing admin if any, then insert new one
+DELETE FROM `admins` WHERE `username` = 'admin';
+INSERT INTO `admins`(`username`, `password`, `email`, `created_at`) VALUES 
+('admin', '$2y$10$e3B0C44298fc1c149afBf4C8996fb92427ae41e4649b934ca495991b7852b855', 'admin@example.com', NOW());
 
 -- Insert sample users
 INSERT INTO users (name, email, phone, age, address, status, registration_date, last_login) VALUES 
