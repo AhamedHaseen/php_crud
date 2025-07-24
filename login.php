@@ -6,21 +6,58 @@ if (isLoggedIn()) {
 }
 
 $error = '';
+$success = '';
+
+// Handle password fix request
+if (isset($_GET['fix_password']) && $_GET['fix_password'] == '1') {
+    try {
+        $newHash = password_hash('admin123', PASSWORD_DEFAULT);
+        $stmt = $pdo->prepare("UPDATE admins SET password = ? WHERE username = 'admin'");
+        $result = $stmt->execute([$newHash]);
+        
+        if ($result) {
+            $success = 'Password hash updated successfully! You can now login with admin/admin123';
+        } else {
+            $error = 'Failed to update password hash';
+        }
+    } catch (Exception $e) {
+        $error = 'Error updating password: ' . $e->getMessage();
+    }
+}
 
 if ($_POST) {
     $username = sanitize($_POST['username']);
     $password = $_POST['password'];
     
+    // Debug: Log the login attempt
+    error_log("Login attempt - Username: " . $username . ", Password: " . $password);
+    
     $stmt = $pdo->prepare("SELECT * FROM admins WHERE username = ?");
     $stmt->execute([$username]);
     $admin = $stmt->fetch();
     
-    if ($admin && password_verify($password, $admin['password'])) {
-        $_SESSION['admin_id'] = $admin['id'];
-        $_SESSION['admin_username'] = $admin['username'];
-        redirect('dashboard.php');
+    // Debug: Check if admin user exists
+    if (!$admin) {
+        $error = 'Username not found in database';
+        error_log("Login failed - Username not found: " . $username);
     } else {
-        $error = 'Invalid username or password';
+        // Debug: Log the stored hash
+        error_log("Stored password hash: " . $admin['password']);
+        error_log("Attempting to verify password: " . $password);
+        
+        if (password_verify($password, $admin['password'])) {
+            $_SESSION['admin_id'] = $admin['id'];
+            $_SESSION['admin_username'] = $admin['username'];
+            error_log("Login successful for: " . $username);
+            redirect('dashboard.php');
+        } else {
+            $error = 'Password verification failed';
+            error_log("Password verification failed for: " . $username);
+            
+            // Additional debug: Try manual verification
+            $manualHash = password_hash($password, PASSWORD_DEFAULT);
+            error_log("Generated hash for comparison: " . $manualHash);
+        }
     }
 }
 ?>
@@ -64,9 +101,32 @@ if ($_POST) {
                         <p class="mb-0">CRUD Dashboard</p>
                     </div>
                     <div class="card-body p-4">
+                        <?php if ($success): ?>
+                            <div class="alert alert-success">
+                                <i class="fas fa-check-circle"></i> <?php echo $success; ?>
+                            </div>
+                        <?php endif; ?>
+                        
                         <?php if ($error): ?>
                             <div class="alert alert-danger">
                                 <i class="fas fa-exclamation-triangle"></i> <?php echo $error; ?>
+                                
+                                <!-- Debug Information -->
+                                <?php if (isset($admin) && $admin): ?>
+                                <hr>
+                                <small><strong>Debug Info:</strong></small><br>
+                                <small>Username found: ✅</small><br>
+                                <small>Password Hash: <?php echo substr($admin['password'], 0, 20) . '...'; ?></small><br>
+                                <small>Hash Length: <?php echo strlen($admin['password']); ?> characters</small><br>
+                                <small>PHP Version: <?php echo phpversion(); ?></small><br>
+                                
+                                <!-- Instant Fix Button -->
+                                <div class="mt-3">
+                                    <a href="?fix_password=1" class="btn btn-sm btn-warning">
+                                        <i class="fas fa-wrench"></i> Fix Password Hash Now
+                                    </a>
+                                </div>
+                                <?php endif; ?>
                             </div>
                         <?php endif; ?>
                         
@@ -92,7 +152,15 @@ if ($_POST) {
                         <div class="text-center">
                             <small class="text-muted">
                                 Default credentials: <strong>admin</strong> / <strong>admin123</strong>
-                            </small>
+                            </small><br>
+                            <div class="mt-2">
+                                <a href="debug_login.php" class="btn btn-sm btn-outline-warning">
+                                    <i class="fas fa-tools"></i> Fix Login Issues
+                                </a>
+                                <a href="reset_admin.php" class="btn btn-sm btn-outline-info">
+                                    <i class="fas fa-key"></i> Reset Password
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
