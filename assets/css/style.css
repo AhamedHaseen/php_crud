@@ -1,0 +1,312 @@
+/* Custom CSS for PHP CRUD Admin Dashboard */
+
+/* Global Styles */
+body {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Welcome Card Styles */
+.welcome-card {
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  border-radius: 20px;
+  border: none;
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.95);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.welcome-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+}
+
+/* Header Styles */
+.welcome-title {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 700;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Icon Styles */
+.main-icon {
+  color: #667eea;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Feature List Styles */
+.feature-list {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: 15px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.feature-list h5 {
+  color: #495057;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.feature-list ul li {
+  padding: 8px 0;
+  color: #6c757d;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.feature-list ul li:hover {
+  color: #667eea;
+}
+
+.feature-list ul li i {
+  margin-right: 10px;
+  color: #667eea;
+  width: 20px;
+}
+
+/* Badge Styles */
+.custom-badge {
+  padding: 8px 12px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  margin: 2px;
+  transition: transform 0.2s ease;
+}
+
+.custom-badge:hover {
+  transform: scale(1.1);
+}
+
+/* Button Styles */
+.btn-custom {
+  border-radius: 25px;
+  padding: 12px 30px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-custom:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transition: left 0.5s;
+}
+
+.btn-custom:hover:before {
+  left: 100%;
+}
+
+.btn-primary.btn-custom {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+}
+
+.btn-primary.btn-custom:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
+}
+
+.btn-outline-secondary.btn-custom {
+  border: 2px solid #6c757d;
+  color: #6c757d;
+}
+
+.btn-outline-secondary.btn-custom:hover {
+  background: #6c757d;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(108, 117, 125, 0.4);
+}
+
+/* Login Info Styles */
+.login-info {
+  background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%);
+  border-radius: 15px;
+  padding: 20px;
+  border-left: 5px solid #667eea;
+}
+
+.login-info code {
+  background: rgba(102, 126, 234, 0.1);
+  color: #667eea;
+  padding: 4px 8px;
+  border-radius: 5px;
+  font-weight: 600;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .welcome-card {
+    margin: 20px;
+    border-radius: 15px;
+  }
+
+  .feature-list {
+    margin-bottom: 15px;
+  }
+
+  .btn-custom {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .welcome-title {
+    font-size: 2.5rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .welcome-title {
+    font-size: 2rem;
+  }
+
+  .main-icon {
+    font-size: 3rem !important;
+  }
+
+  .feature-list {
+    padding: 15px;
+  }
+}
+
+/* Loading Animation */
+.loading {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: #fff;
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Sidebar Styles (for consistency with admin pages) */
+.sidebar {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar .nav-link {
+  color: rgba(255, 255, 255, 0.8);
+  padding: 15px 20px;
+  border-radius: 10px;
+  margin: 8px;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.sidebar .nav-link:hover,
+.sidebar .nav-link.active {
+  color: white;
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateX(5px);
+}
+
+.sidebar .nav-link i {
+  margin-right: 10px;
+  width: 20px;
+}
+
+/* Table Styles */
+.table-hover tbody tr:hover {
+  background-color: rgba(102, 126, 234, 0.1);
+}
+
+/* Card Hover Effects */
+.stat-card {
+  border-radius: 15px;
+  border: none;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  overflow: hidden;
+  position: relative;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+}
+
+.stat-card:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #667eea, #764ba2);
+}
+
+/* Form Styles */
+.form-control:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+}
+
+.form-select:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+}
+
+/* Alert Styles */
+.alert {
+  border-radius: 10px;
+  border: none;
+}
+
+/* Print Styles */
+@media print {
+  body {
+    background: white !important;
+  }
+
+  .sidebar {
+    display: none !important;
+  }
+
+  .btn {
+    display: none !important;
+  }
+}
